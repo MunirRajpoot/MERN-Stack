@@ -1,39 +1,25 @@
-const { log } = require('console');
-const http = require('http');
-const fs=require('fs');
+const express = require('express');
+const morgan = require('morgan')
+const server = express();
+const productRouter=require('./routes/products')
+const userRouter=require('./routes/users')
 
-const index=fs.readFileSync('index.html', 'utf-8');
+server.use(express.json());
+server.use(morgan('default'))
+server.use(express.static('public'))
+server.use('/products',productRouter.router);
+server.use('/users',userRouter.router);
+// server.use(morgan)
+// const auth=(req,res,next)=>{
 
-const data=fs.readFileSync('data.json','utf-8')
+// server.get('/product/:id',auth,(req,res)=>{
+//     console.log(req.params);
+//     res.json({type:'GET1'})
+// })
 
-
-// const data = { age: 19 };
-const server = http.createServer((req, res) => {
-
-    // console.log(req.url);
-
-    switch(req.url){
-        case'/':
-       res.setHeader('Content-Type','text/html')
-       res.end(index);
-       break;
-
-        case'/api':
-        res.setHeader('Content-Type','application/json');
-        res.end(data);
-        break;
-        default:
-            res.writeHead(404,'Not Found Page');
-            res.end()
-    }
-    console.log('Server started');
-    // res.end('<h1>Hello</h1>')
-
-    // res.setHeader('Content-Type','text/html')
-    // res.end(index)
- 
-
-    // res.end(JSON.stringify(data));
+server.listen(8080, () => {
+    console.log('server started');
 })
 
-server.listen(8080)
+
+
