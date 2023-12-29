@@ -1,11 +1,12 @@
 const fs = require('fs');
-const index = fs.readFileSync('index.html', 'utf-8');
-const data = JSON.parse(fs.readFileSync('data.json', 'utf-8'));
-const products = data.products
-
+const model =require('../model/product')
+const Product=model.product
 exports.createProducts=(req, res) => {
-    console.log(req.body);
-    products.push(req.body);
+    
+    const product=new Product();
+    product.title='PhoneX';
+    product.price=9999;
+    
     res.json(req.body)
 }
 
