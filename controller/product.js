@@ -1,13 +1,18 @@
 const fs = require('fs');
-const model =require('../model/product')
+const model =require('../model/product');
+const { log } = require('console');
 const Product=model.product
 exports.createProducts=(req, res) => {
     
     const product=new Product();
     product.title='PhoneX';
     product.price=9999;
-    
+    product.ratings=5;
+    product.save((err,doc)=>{
+    console.log(err,doc);
+    })
     res.json(req.body)
+    
 }
 
 exports.getAllProducts=(req, res) => {
